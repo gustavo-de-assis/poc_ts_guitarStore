@@ -10,3 +10,8 @@ export async function insertProduct(product: Product){
         [product.model, product.brand, 
             product.price, product.year]);
 }
+
+export async function showAllProducts() {
+    return await connection.query("SELECT * FROM product");   
+}
+
