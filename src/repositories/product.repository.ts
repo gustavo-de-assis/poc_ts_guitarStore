@@ -18,3 +18,7 @@ export async function showAllProducts() {
 export async function showProduct(id: number){
     return await connection.query("SELECT * FROM product WHERE id = $1",[id]);   
 }
+
+export async function deleteProduct(id: number){
+    await connection.query("DELETE FROM product WHERE id = $1",[id]);
+}

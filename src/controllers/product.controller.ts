@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Product } from "../protocols/product.protocol.js";
-import { insertProduct, showAllProducts, showProduct } from "../repositories/product.repository.js";
+import { deleteProduct, insertProduct, showAllProducts, showProduct } from "../repositories/product.repository.js";
 import { productSchema } from "../schemas/product.schema.js";
 
 
@@ -21,8 +21,40 @@ export async function listProducts(req: Request, res: Response): Promise <any>{
 
 export async function productInfo(req: Request, res: Response) {
     const {id} = req.params;
+    
+    if(isNaN(Number(id))){
+        return  res.status(400).send('Invalid id');
+    }
+    try {
+        const prod = await showProduct(Number(id));
+        if(prod.rows.length === 0){
+            res.status(404).send("Product not Found!");
+        } else {
+            res.status(200).send(prod.rows);
+        }
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
 
-    const result = await showProduct(Number(id));
-    return res.status(200).send(result.rows);
+}
 
+export async function removeProduct(req: Request, res: Response){
+    const {id} = req.params;
+    
+    if(isNaN(Number(id))){
+        return  res.status(400).send('Invalid id');
+    }
+    try {
+        const prod = await showProduct(Number(id));
+        if(prod.rows.length === 0){
+            res.status(404).send("Product not Found!");
+        } else {
+            deleteProduct(Number(id));
+            res.status(200).send("OK");
+        }
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
 }
