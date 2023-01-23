@@ -1,4 +1,4 @@
-# poc_ts_guitarStore
+## poc_ts_guitarStore
 Exercício de proof of concept de TypeScript.
 
 Um colecionador decidiu guardar informações de suas guitarras para vendê-las futuramente.
@@ -11,12 +11,12 @@ Segue abaixo as rotas:
 
 ele deve passar um objeto no campo body da requisição da seguinte maneira:
 
-{
+<code>{
   model: "meu_modelo",
   brand: "marca_do_prod",
   price: valor_em_centavos,
   year: "ano_de_fabricacao"
-}
+}</code>
 
 Se tudo correr bem, ele receberá uma mensagem 'Product resgistered successfully!' com status 201;
 
