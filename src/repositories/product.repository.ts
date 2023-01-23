@@ -15,3 +15,6 @@ export async function showAllProducts() {
     return await connection.query("SELECT * FROM product");   
 }
 
+export async function showProduct(id: number){
+    return await connection.query("SELECT * FROM product WHERE id = $1",[id]);   
+}
