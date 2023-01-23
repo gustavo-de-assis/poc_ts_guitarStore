@@ -4,3 +4,5 @@ export type Product = {
     price: number,
     year: Date | string;
 }
+
+export type updProduct = Partial<Product>

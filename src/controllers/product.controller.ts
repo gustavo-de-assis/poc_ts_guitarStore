@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { Product } from "../protocols/product.protocol.js";
-import { deleteProduct, insertProduct, showAllProducts, showProduct } from "../repositories/product.repository.js";
+import { Product, updProduct } from "../protocols/product.protocol.js";
+import { deleteProduct, insertProduct, showAllProducts, showProduct, updateProduct } from "../repositories/product.repository.js";
 import { productSchema } from "../schemas/product.schema.js";
 
 
@@ -57,4 +57,18 @@ export async function removeProduct(req: Request, res: Response){
         console.log(error);
         res.sendStatus(500);
     }
+}
+
+export async function updateProductInfo(req: Request, res: Response){
+    const {id} = req.params;
+    const info = req.body as updProduct;
+
+    if(isNaN(Number(id))){
+        return  res.status(400).send('Invalid id');
+    }
+    productSchema.validate(info);
+
+    await updateProduct(info,Number(id));
+
+    res.status(200).send('OK');
 }
