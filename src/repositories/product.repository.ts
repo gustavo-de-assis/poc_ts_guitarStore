@@ -2,7 +2,7 @@ import { connection } from "../database/db.js";
 import { Product, updProduct } from "../protocols/product.protocol.js";
 
 export async function insertProduct(product: Product){
-    await connection.query(`
+    return await connection.query(`
         INSERT 
         INTO product 
             (model, brand, price, year)
@@ -20,7 +20,7 @@ export async function showProduct(id: number){
 }
 
 export async function deleteProduct(id: number){
-    await connection.query("DELETE FROM product WHERE id = $1",[id]);
+    return await connection.query("DELETE FROM product WHERE id = $1",[id]);
 }
 
 export async function updateProduct(product: updProduct, id: number){
@@ -32,6 +32,6 @@ export async function updateProduct(product: updProduct, id: number){
     price? rules += ' price = '+price: '';
     year? rules += ' year = '+year: ''; 
 
-    await connection.query(`UPDATE product SET ${rules} WHERE id = $1`,[id])
+    return await connection.query(`UPDATE product SET ${rules} WHERE id = $1`,[id])
 
 }

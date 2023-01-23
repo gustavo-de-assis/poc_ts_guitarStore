@@ -4,14 +4,19 @@ import { deleteProduct, insertProduct, showAllProducts, showProduct, updateProdu
 import { productSchema } from "../schemas/product.schema.js";
 
 
-export async function registerProduct(req: Request, res: Response){
+export async function registerProduct(req: Request, res: Response): Promise <any>{
     const newProduct = req.body as Product;
 
     productSchema.validate(newProduct);
+    try {
+        insertProduct(newProduct);
+        return res.status(201).send('Product resgistered successfully!');    
+    
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
 
-    insertProduct(newProduct);
-
-    return res.send('Product resgistered successfully!');    
 } 
 
 export async function listProducts(req: Request, res: Response): Promise <any>{
@@ -19,7 +24,7 @@ export async function listProducts(req: Request, res: Response): Promise <any>{
     return res.status(200).send(result.rows);
 }
 
-export async function productInfo(req: Request, res: Response) {
+export async function productInfo(req: Request, res: Response): Promise <any> {
     const {id} = req.params;
     
     if(isNaN(Number(id))){
@@ -39,7 +44,7 @@ export async function productInfo(req: Request, res: Response) {
 
 }
 
-export async function removeProduct(req: Request, res: Response){
+export async function removeProduct(req: Request, res: Response): Promise <any>{
     const {id} = req.params;
     
     if(isNaN(Number(id))){
@@ -59,7 +64,7 @@ export async function removeProduct(req: Request, res: Response){
     }
 }
 
-export async function updateProductInfo(req: Request, res: Response){
+export async function updateProductInfo(req: Request, res: Response): Promise <any>{
     const {id} = req.params;
     const info = req.body as updProduct;
 
