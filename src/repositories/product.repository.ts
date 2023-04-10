@@ -11,7 +11,7 @@ export async function insertProduct(product: Product){
             product.price, product.year]);
 }
 
-export async function showAllProducts() {
+export async function showAllProducts(): Promise<any> {
     return await connection.query("SELECT * FROM product");   
 }
 
@@ -27,11 +27,21 @@ export async function updateProduct(product: updProduct, id: number){
     const {model, brand, price, year} = product;
 
     let rules = '';
-    model? rules += 'model = '+model: '';
-    brand? rules += ' brand = '+brand: '';
-    price? rules += ' price = '+price: '';
-    year? rules += ' year = '+year: ''; 
+    model? rules += 'model = '+ model +",": '';
+    brand? rules += ' brand = '+brand+",": '';
+    price? rules += ' price = '+price+",": '';
+    year? rules += ' year = '+year:''; 
 
     return await connection.query(`UPDATE product SET ${rules} WHERE id = $1`,[id])
 
 }
+
+const productRepository = {
+    insertProduct,
+    showAllProducts,
+    showProduct,
+    deleteProduct,
+    updateProduct
+};
+
+export default productRepository;
